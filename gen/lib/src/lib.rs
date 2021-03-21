@@ -54,3 +54,11 @@ pub fn generate_header_and_cc(rust_source: TokenStream, opt: &Opt) -> Result<Gen
         .map_err(Error::from)?;
     gen::generate(syntax, opt).map_err(Error::from)
 }
+
+/// Expand the Rust token stream.
+pub fn generate_rs(rust_source: TokenStream) -> Result<TokenStream, Error> {
+    let syntax = syn::parse2(rust_source)
+        .map_err(crate::gen::Error::from)
+        .map_err(Error::from)?;
+    gen::generate_rs(syntax).map_err(Error::from)
+}

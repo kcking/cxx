@@ -14,11 +14,14 @@ mod nested;
 pub(super) mod out;
 mod write;
 
+use proc_macro2::TokenStream;
+
 pub(super) use self::error::Error;
 use self::error::{format_err, Result};
 use self::file::File;
 use self::include::Include;
 use crate::syntax::report::Errors;
+use crate::syntax::expand::bridge;
 use crate::syntax::{self, Types};
 use std::path::Path;
 
@@ -148,4 +151,12 @@ pub(super) fn generate(syntax: File, opt: &Opt) -> Result<GeneratedCode> {
         header,
         implementation,
     })
+}
+
+pub(super) fn generate_rs(syntax: File) -> Result<TokenStream> {
+    let mut ts = TokenStream::new();
+    for md in syntax.modules {
+        ts.extend(bridge(md)?);
+    }
+    Ok(ts)
 }

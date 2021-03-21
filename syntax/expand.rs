@@ -9,8 +9,9 @@ use crate::syntax::{
     self, check, mangle, Api, Doc, Enum, ExternFn, ExternType, Impl, Lifetimes, Pair, Signature,
     Struct, Trait, Type, TypeAlias, Types,
 };
-use crate::type_id::Crate;
-use crate::{derive, generics};
+use crate::syntax::generics;
+use crate::syntax::expand_derive as derive;
+use crate::syntax::type_id::Crate;
 use proc_macro2::{Ident, Span, TokenStream};
 use quote::{format_ident, quote, quote_spanned, ToTokens};
 use std::mem;
@@ -1199,7 +1200,7 @@ fn type_id(name: &Pair) -> TokenStream {
     segments.extend(namespace_segments.cloned());
     segments.push(Ident::new(&name.cxx.to_string(), Span::call_site()));
     let qualified = QualifiedName { segments };
-    crate::type_id::expand(Crate::Cxx, qualified)
+    crate::syntax::type_id::expand(Crate::Cxx, qualified)
 }
 
 fn expand_rust_box(key: NamedImplKey, types: &Types, explicit_impl: Option<&Impl>) -> TokenStream {

@@ -28,6 +28,10 @@ mod toposort;
 pub mod trivial;
 pub mod types;
 mod visit;
+pub mod expand;
+mod expand_derive;
+pub mod type_id;
+mod generics;
 
 use self::attrs::OtherAttrs;
 use self::namespace::Namespace;

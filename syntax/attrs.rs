@@ -142,8 +142,9 @@ pub fn parse(cx: &mut Errors, attrs: Vec<Attribute>, mut parser: Parser) -> Othe
             continue;
         } else if attr.path.segments.len() > 1 {
             let tool = &attr.path.segments.first().unwrap().ident;
-            if tool == "rustfmt" {
+            if tool == "rustfmt" || tool == "cxx" {
                 // Skip, rustfmt only needs to find it in the pre-expansion source file.
+                // Skip cxx::bridge attributes which made it this far due to coming in via cxx_gen.
                 continue;
             } else if tool == "clippy" {
                 passthrough_attrs.push(attr);

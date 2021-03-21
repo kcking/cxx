@@ -30,11 +30,7 @@
 
 extern crate proc_macro;
 
-mod derive;
-mod expand;
-mod generics;
 mod syntax;
-mod type_id;
 
 #[cfg(feature = "experimental")]
 mod clang;
@@ -44,7 +40,9 @@ mod load;
 use crate::syntax::file::Module;
 use crate::syntax::namespace::Namespace;
 use crate::syntax::qualified::QualifiedName;
-use crate::type_id::Crate;
+use crate::syntax::type_id::Crate;
+use crate::syntax::type_id;
+use crate::syntax::expand;
 use proc_macro::TokenStream;
 use syn::parse::{Parse, ParseStream, Parser, Result};
 use syn::parse_macro_input;
